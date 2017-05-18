@@ -1,3 +1,13 @@
 #!/usr/bin/env bash
 
-find . -name "*.js" | grep -v -f .gitignore | xargs prettier --single-quote --trailing-comma es5 --write
+COMMAND="prettier --single-quote --trailing-comma es5 --write"
+
+if [ "$1" ]
+  then
+    $COMMAND "$1"
+elif [ -f ".gitignore" ]
+  then
+    find . -name "*.js" | grep -v -f .gitignore | xargs $COMMAND
+else
+  $COMMAND "**/*.js"
+fi
